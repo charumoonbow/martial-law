@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Martial Law Art Program · Group 3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Anton&family=Hanken+Grotesk:wght@400;500;600&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{--red:#FF5A64;--band:#A50F1E;--deep:#7A0B16;--char:#181515;--ink:#0E0D0D;--cream:#F1ECE4;--mute:#D6CEC3}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ink);color:var(--cream);font-family:'Hanken Grotesk',system-ui,sans-serif;overflow-x:hidden}
+a{color:inherit;text-decoration:none}a:hover{opacity:.75}
+.serif{font-family:'Instrument Serif',Georgia,serif;font-weight:400}
+.wrap{max-width:1320px;margin:0 auto;padding-left:clamp(20px,4vw,48px);padding-right:clamp(20px,4vw,48px)}
+.eyebrow{font-size:12px;letter-spacing:.22em;text-transform:uppercase}
+.star{display:block;flex:none}
+/* loader */
+#loader{position:fixed;inset:0;z-index:100;background:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;transition:opacity .65s ease}
+#loader.fade{opacity:0;pointer-events:none}
+.sun-spin{animation:spin 10s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes fill{from{width:0}to{width:100%}}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.load-bar{height:2px;width:0;background:var(--red);animation:fill 2s ease-out forwards}
+.ll{opacity:0;animation:rise .7s ease forwards;margin:0;text-align:center}
+/* hero */
+.hero{position:relative;overflow:hidden;isolation:isolate;background:#C4090E}
+.hero::before{content:"";position:absolute;inset:0;z-index:0;background:url(hero.jpg) center 72%/cover;filter:grayscale(1) contrast(1.5) brightness(1.05)}
+.hero::after{content:"";position:absolute;inset:0;z-index:0;background:#E3121A;mix-blend-mode:multiply}
+.hero-in{position:relative;z-index:2;background:linear-gradient(180deg,rgba(20,3,3,.25),rgba(20,3,3,.55))}
+.ghost{position:absolute;left:-1vw;right:-1vw;margin:0;font-family:'Anton','Impact',sans-serif;text-transform:uppercase;line-height:.82;white-space:nowrap;color:transparent;-webkit-text-stroke:2px rgba(255,240,230,.55);pointer-events:none;user-select:none;font-size:clamp(90px,21vw,320px)}
+.grain{position:absolute;inset:0;pointer-events:none;opacity:.35;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+header .wrap{padding-top:22px;padding-bottom:22px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px 32px;position:relative}
+nav{display:flex;flex-wrap:wrap;gap:8px 32px;font-size:12px;letter-spacing:.14em;text-transform:uppercase}
+.hero h1{margin:0;font-family:'Anton','Impact',sans-serif;text-transform:uppercase;font-weight:400;font-size:clamp(76px,13vw,196px);line-height:.88;color:#FFF3E6;text-shadow:6px 6px 0 #0A0000}
+.hero h1 span{color:#0A0000;text-shadow:none}
+.btn{display:inline-block;padding:15px 26px;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase}
+/* collection */
+#collection{background:var(--char);position:relative;min-height:700px}
+.mq-wrap{overflow-x:auto;scrollbar-width:thin;scrollbar-color:#5A5047 transparent;-webkit-overflow-scrolling:touch;cursor:grab;padding:24px 0 104px}
+.mq-wrap.dragging{cursor:grabbing;user-select:none}
+.mq-track{display:flex;width:max-content}
+.mq-card{flex:none;width:290px;margin-right:24px;background:var(--cream);color:var(--ink);border-radius:18px;padding:14px 14px 22px;display:block;text-align:left;font:inherit;border:0;cursor:pointer;transition:transform .2s}
+.mq-card:hover{transform:translateY(-6px)}
+.mq-card img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:999px 999px 10px 10px;pointer-events:none;-webkit-user-drag:none}
+.mq-card .n{display:block;margin:18px 6px 0;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--deep)}
+.mq-card .t{display:block;margin:6px 6px 0;font-family:'Instrument Serif',Georgia,serif;font-size:28px;line-height:1.1}
+.mq-card .a{display:block;margin:6px 6px 0;font-size:14px;font-weight:500}
+.mq-card .s{display:block;margin:4px 6px 0;font-size:13px;line-height:1.4;color:#5A5047}
+#modal{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;padding:24px;overflow:auto}
+#modal.open{display:flex}
+#modal .bg{position:fixed;inset:0;background:rgba(8,7,7,.86);border:0;cursor:pointer}
+.dlg{position:relative;z-index:1;width:100%;max-width:960px;margin:auto;background:var(--cream);color:var(--ink);border-radius:20px;padding:28px;display:flex;flex-wrap:wrap;gap:32px}
+/* feature */
+.feat .wrap{display:flex;flex-wrap:wrap;gap:64px;align-items:center}
+.feat dl{margin:28px 0 0;display:grid;grid-template-columns:max-content 1fr;gap:10px 28px;font-size:15px;line-height:1.5}
+.feat dt{font-size:12px;letter-spacing:.16em;text-transform:uppercase;padding-top:2px}
+.feat dd{margin:0}
+.feat p.b{margin:28px 0 0;max-width:520px;font-size:17px;line-height:1.6;text-wrap:pretty}
+.feat p.b+p.b{margin-top:18px}
+.feat h2{margin:0;font-size:clamp(52px,6vw,88px);line-height:1;font-style:italic}
+.feat img{display:block}
+/* together + hall */
+h2.sec{margin:0;font-size:clamp(40px,4.6vw,64px);line-height:1;font-style:italic}
+.cols3{margin-top:56px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:48px}
+.cols3>div{border-top:1px solid var(--red);padding-top:24px}
+.cols3 .k{margin:0 0 14px;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--red)}
+.cols3 p:last-child{margin:0;font-size:16px;line-height:1.65;color:var(--mute);text-wrap:pretty}
+.gal{margin-top:64px;column-width:340px;column-gap:40px}
+figure{margin:0 0 56px;break-inside:avoid;display:flex;flex-direction:column;gap:16px}
+.frame{position:relative;border-radius:6px;overflow:hidden;background:#2A2525;box-shadow:0 0 0 1px #3A3333}
+.frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.hit{position:absolute;inset:0;width:100%;height:100%;padding:0;border:0;background:transparent;cursor:crosshair}
+.hit:hover{background:rgba(255,255,255,.05)}
+.note{position:absolute;z-index:2;width:116px;min-height:100px;padding:14px 12px 12px;color:#2B2523;font-family:Caveat,cursive;font-weight:600;font-size:19px;line-height:1.05;box-shadow:0 8px 16px rgba(0,0,0,.45);word-break:break-word;pointer-events:none}
+.pin{position:absolute;z-index:3;width:22px;height:22px;border-radius:50%;background:var(--red);border:3px solid #FFF4F0;box-shadow:0 2px 8px rgba(0,0,0,.6);transform:translate(-50%,-50%);pointer-events:none}
+figcaption{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:6px 16px}
+figcaption .t{font-family:'Instrument Serif',Georgia,serif;font-size:26px;line-height:1.1}
+figcaption .c{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--red)}
+.composer{background:var(--ink);border:1px solid var(--red);border-radius:6px;padding:16px;display:flex;flex-direction:column;gap:12px}
+.composer label{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--red)}
+.composer textarea{width:100%;resize:vertical;border:0;border-radius:4px;padding:12px;background:var(--cream);color:var(--ink);font:inherit;font-size:15px;line-height:1.4}
+.composer button{min-height:44px;padding:0 22px;font:inherit;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;cursor:pointer}
+.go{border:0;background:var(--red);color:var(--ink)}
+.no{border:1px solid var(--cream);background:transparent;color:var(--cream)}
+footer{background:var(--band);color:#FFF4F0}
+footer .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:40px}
+footer .k{margin:0 0 12px;font-size:12px;letter-spacing:.2em;text-transform:uppercase}
+footer .grid p:last-child{margin:0;font-size:16px;line-height:1.6}
+footer ul{margin:0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:10px 28px;font-size:14px;line-height:1.5}
+footer ul a{text-decoration:underline}
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--cream);color:var(--ink);padding:12px 18px;border-radius:6px;font-size:14px;z-index:90;display:none;max-width:90vw}
+@media (prefers-reduced-motion:reduce){.sun-spin{animation:none}.load-bar{animation:none;width:100%}.ll{animation:none;opacity:1}}
+</style>
+</head>
+<body>
+
+<div id="loader" role="status" aria-live="polite" aria-label="Loading the exhibit">
+  <svg class="sun-spin" width="132" height="132" viewBox="0 0 120 120" fill="none" stroke="#FF5A64" stroke-width="3" stroke-linecap="round" aria-hidden="true">
+    <circle cx="60" cy="60" r="17" fill="#FF5A64" stroke="none"></circle>
+    <g id="rays"></g>
+  </svg>
+  <p class="ll serif" style="font-style:italic;font-size:clamp(36px,6vw,56px);line-height:1">Sandali lang po</p>
+  <p class="ll" style="font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--mute);animation-delay:.25s">Binubuksan ang eksibit</p>
+  <div style="width:min(220px,60vw);background:#3A3333"><div class="load-bar"></div></div>
+  <p class="ll" style="font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--red);animation-delay:.6s">Huwag kalimutan</p>
+</div>
+
+<div class="hero">
+  <div class="hero-in">
+    <div class="grain" aria-hidden="true"></div>
+    <p class="ghost" aria-hidden="true" style="top:70px">Huwag</p>
+    <p class="ghost" aria-hidden="true" style="top:calc(70px + clamp(90px,21vw,320px)*.82)">Kalimutan</p>
+    <header>
+      <div class="wrap">
+        <a href="#top" class="serif" style="display:flex;align-items:center;gap:10px;font-size:26px">
+          <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C13 8 16 11 24 12C16 13 13 16 12 24C11 16 8 13 0 12C8 11 11 8 12 0Z" fill="#FFF3E6"></path></svg><span>Group 3</span>
+        </a>
+        <nav aria-label="Primary"><a href="#collection">Collection</a><a href="#kinupot">The works</a><a href="#together">Read together</a><a href="#hall">The hallway</a></nav>
+      </div>
+    </header>
+    <section id="top" style="position:relative">
+      <div class="wrap" style="padding-top:120px;padding-bottom:140px;min-height:640px;display:flex;flex-direction:column;justify-content:flex-end">
+        <p class="eyebrow" style="margin:0 0 20px;color:#E2D9CE">Group 3 · Art Program</p>
+        <h1>Martial<br><span>Law</span></h1>
+        <div style="display:flex;align-items:center;gap:14px;margin-top:36px">
+          <svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C13 8 16 11 24 12C16 13 13 16 12 24C11 16 8 13 0 12C8 11 11 8 12 0Z" fill="#FFF3E6"></path></svg>
+          <p style="margin:0;font-family:'Anton','Impact',sans-serif;text-transform:uppercase;letter-spacing:.02em;font-size:clamp(34px,4vw,54px);line-height:1">Nine works on display</p>
+        </div>
+        <p style="margin:28px 0 0;max-width:540px;font-size:17px;line-height:1.6;color:#E8E0D5;text-wrap:pretty">An exhibit on the oppression, injustice and suffering of Martial Law, told through nine Philippine works of protest. Walk the hallway and leave a sticky note on any work that stays with you.</p>
+        <p style="margin:28px 0 0;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#FFF3E6;background:#0A0000;display:inline-block;padding:6px 12px;align-self:flex-start">November 24, 2026</p>
+        <div style="display:flex;flex-wrap:wrap;gap:14px;margin-top:28px">
+          <a class="btn" href="#kinupot" style="background:#0A0000;color:#FFF3E6">Meet the works</a>
+          <a class="btn" href="#hall" style="border:1px solid var(--cream)">Walk the hallway</a>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<section id="collection">
+  <div class="wrap" style="padding-top:96px;padding-bottom:24px;display:flex;flex-wrap:wrap;align-items:center;gap:12px 24px">
+    <svg class="star" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C13 8 16 11 24 12C16 13 13 16 12 24C11 16 8 13 0 12C8 11 11 8 12 0Z" fill="#FF5A64"></path></svg>
+    <h2 class="serif sec">The Collection</h2>
+    <p style="margin:0;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--red)">9 works · Drag or swipe, click a card to read more</p>
+  </div>
+  <div class="mq-wrap"><div class="mq-track" id="track"></div></div>
+</section>
+
+<div id="modal" aria-hidden="true">
+  <button type="button" class="bg" aria-label="Close description" id="mclose-bg"></button>
+  <div class="dlg" role="dialog" aria-modal="true" aria-labelledby="m-title">
+    <div style="flex:1 1 300px;max-width:440px"><img id="m-img" alt="" style="display:block;width:100%;border-radius:12px"></div>
+    <div style="flex:2 1 360px;min-width:0">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px">
+        <p id="m-n" style="margin:0;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--deep)"></p>
+        <button type="button" id="mclose" aria-label="Close description" style="width:44px;height:44px;margin:-10px -10px 0 0;padding:0;border:0;background:transparent;color:var(--ink);font-size:28px;line-height:1;cursor:pointer">×</button>
+      </div>
+      <h3 id="m-title" class="serif" style="margin:8px 0 0;font-size:clamp(36px,4vw,52px);line-height:1"></h3>
+      <p id="m-by" style="margin:10px 0 0;font-size:14px;font-weight:500"></p>
+      <p id="m-med" style="margin:4px 0 0;font-size:13px;color:#5A5047"></p>
+      <p id="m-desc" style="margin:22px 0 0;font-size:16px;line-height:1.6;text-wrap:pretty"></p>
+      <p id="m-con" style="margin:14px 0 0;font-size:16px;line-height:1.6;text-wrap:pretty;color:#3B342F"></p>
+      <a href="#hall" id="m-note" class="btn" style="margin-top:24px;background:var(--ink);color:var(--cream)">Leave a sticky note</a>
+    </div>
+  </div>
+</div>
+
+<section id="kinupot" class="feat" style="background:var(--band);color:#FFF4F0;position:relative;z-index:2">
+  <div class="wrap" style="padding-top:96px;padding-bottom:96px">
+    <div style="flex:1 1 340px;min-width:0">
+      <p class="eyebrow" style="margin:0 0 18px">Featured · Work 01 of 09</p>
+      <h2 class="serif">Kinupot</h2>
+      <dl><dt>Artist</dt><dd>Edgar Talusan Fernandez</dd><dt>Date</dt><dd>1977, during the Martial Law era</dd><dt>Medium</dt><dd>Molded canvas over a wood armature</dd><dt>Where</dt><dd>Philippines / Ateneo Art Gallery, Ateneo de Manila University, Quezon City</dd></dl>
+      <p class="b">A tall, hooded figure of white canvas stretched over a wooden frame. The fabric is pulled tight and creased, with no face or features, and the figure stands on a black base. The title joins <em>kinuha</em> (taken) and <em>sinupot</em> (bagged).</p>
+      <p class="b"><strong style="font-weight:600">Power that hides its victims.</strong> The work refers to the desaparecidos, the missing persons, and to the restraint felt during a period of media censorship. The blank, shrouded figure makes visible what the regime erased.</p>
+    </div>
+    <img src="kinupot.jpg" alt="Kinupot by Edgar Talusan Fernandez: a tall white canvas figure, hooded and faceless, on a black base" style="flex:1 1 420px;max-width:580px;aspect-ratio:3/4;object-fit:cover;position:relative;z-index:3;transform:translateY(240px);border-radius:999px 999px 8px 8px;background:var(--deep)">
+  </div>
+</section>
+
+<section id="krista" class="feat" style="background:var(--char)">
+  <div class="wrap" style="padding-top:336px;padding-bottom:96px;flex-wrap:wrap-reverse;justify-content:space-between">
+    <img src="krista.jpg" alt="Krista (Female Christ) by Pablo Baens Santos: a woman with barbed wire across her mouth and her hands clasped at her throat" style="flex:1 1 360px;max-width:480px;aspect-ratio:4/5;object-fit:cover;border-radius:8px 220px 8px 8px;background:#2A2525">
+    <div style="flex:1 1 340px;min-width:0">
+      <p class="eyebrow" style="margin:0 0 18px;color:var(--red)">Featured · Work 02 of 09</p>
+      <h2 class="serif">Krista (Female Christ)</h2>
+      <dl><dt style="color:var(--red)">Artist</dt><dd>Pablo Baens Santos</dd><dt style="color:var(--red)">Date</dt><dd>1984, during the Martial Law era</dd><dt style="color:var(--red)">Medium</dt><dd>Oil on canvas</dd><dt style="color:var(--red)">Where</dt><dd>Philippines / Ateneo Art Gallery Collection, Ateneo de Manila University, Quezon City</dd></dl>
+      <p class="b" style="color:var(--mute)">The Philippine motherland, with barbed wire around her mouth like a gag. Her fists are clenched, the colors of the flag fill the background, and outraged figures crowd the scene.</p>
+      <p class="b" style="color:var(--mute)"><strong style="font-weight:600;color:#fff">The gag is censorship made visible.</strong> Placing a woman in the place of Christ, with barbed wire in place of thorns, is our reading of the title: the nation as a silenced woman who still resists, a suffering figure and not only a victim.</p>
+    </div>
+  </div>
+</section>
+
+<section id="erased" class="feat" style="background:var(--band);color:#FFF4F0;position:relative;z-index:2">
+  <div class="wrap" style="padding-top:96px;padding-bottom:96px">
+    <div style="flex:1 1 340px;min-width:0">
+      <p class="eyebrow" style="margin:0 0 18px">Featured · Work 03 of 09</p>
+      <h2 class="serif">Erased Slogans</h2>
+      <dl><dt>Artist</dt><dd>Kiri Dalena</dd><dt>Date</dt><dd>2016</dd><dt>Medium</dt><dd>Laser print</dd><dt>Where</dt><dd>M+ Museum, Hong Kong</dd></dl>
+      <p class="b">Edited archival images of protests in Manila, from the 1970s leading up to and during martial law. The slogans have been digitally wiped from the placards, leaving them blank: forgotten voices, beliefs and messages that were silenced or overlooked.</p>
+      <p class="b"><strong style="font-weight:600">Two ways to read an empty placard.</strong> It can mean forgetting that the period ever happened, or it can be an impulse to remember. The empty spaces stand for the silenced voices of that time and the historical amnesia that has marked Philippine politics since.</p>
+    </div>
+    <img src="erased.jpg" alt="Erased Slogans by Kiri Dalena: protesters marching along a bridge carrying blank placards" style="flex:1 1 360px;max-width:520px;aspect-ratio:4/3;object-fit:cover;position:relative;z-index:3;transform:translateY(150px);border-radius:300px 8px 8px 8px;background:var(--deep)">
+  </div>
+</section>
+
+<section id="together" style="background:var(--ink)">
+  <div class="wrap" style="padding-top:254px;padding-bottom:104px">
+    <div style="display:flex;align-items:center;gap:14px">
+      <svg class="star" width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C13 8 16 11 24 12C16 13 13 16 12 24C11 16 8 13 0 12C8 11 11 8 12 0Z" fill="#FF5A64"></path></svg>
+      <h2 class="serif sec">Reading the works together</h2>
+    </div>
+    <div class="cols3">
+      <div><p class="k">What they share</p><p>All of them depict abuses of power and institutions in the Martial Law era, and the toll on Filipinos through repression, silencing and abuse by state forces. They are Philippine works of protest that also give a voice to victims who never got to speak.</p></div>
+      <div><p class="k">Why these works</p><p>They capture a side of Martial Law that is often overlooked and forgotten, each voicing a different kind of pain. Together they let us reflect through three lenses: the past, the present and the future, so we do not turn a blind eye to injustice.</p></div>
+      <div><p class="k">What we learn</p><p>The works reveal the fear, oppression and restrictions Filipinos lived under. They also show that art can express what could not always be said aloud, at a time when artists faced censorship and persecution for challenging the realities around them.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="hall" style="background:var(--char)">
+  <div class="wrap" style="padding-top:104px;padding-bottom:104px">
+    <div style="display:flex;flex-wrap:wrap;gap:40px 64px;align-items:flex-end;justify-content:space-between">
+      <div style="flex:1 1 420px;min-width:0">
+        <div style="display:flex;align-items:center;gap:14px">
+          <svg class="star" width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C13 8 16 11 24 12C16 13 13 16 12 24C11 16 8 13 0 12C8 11 11 8 12 0Z" fill="#FF5A64"></path></svg>
+          <h2 class="serif sec">Walk the hallway</h2>
+        </div>
+        <p style="margin:28px 0 0;max-width:560px;font-size:17px;line-height:1.65;color:var(--mute);text-wrap:pretty">The hallway is right here on the page. Click anywhere on an artwork to stick a note beside what you see, then write your thoughts. Every note is shared, so everyone who visits sees what you leave.</p>
+      </div>
+      <div style="flex:1 1 360px;max-width:520px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(140px,100%),1fr));gap:24px;border-top:1px solid #6B6159;padding-top:24px">
+        <div><p style="margin:0 0 8px;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--red)">01 · Look</p><p style="margin:0;font-size:14px;line-height:1.5;color:var(--mute)">Take in each work.</p></div>
+        <div><p style="margin:0 0 8px;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--red)">02 · Click</p><p style="margin:0;font-size:14px;line-height:1.5;color:var(--mute)">Pick a spot on the artwork.</p></div>
+        <div><p style="margin:0 0 8px;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--red)">03 · Stick</p><p style="margin:0;font-size:14px;line-height:1.5;color:var(--mute)">Write it and stick it on.</p></div>
+      </div>
+    </div>
+    <div class="gal" id="gal"></div>
+  </div>
+</section>
+
+<footer id="visit">
+  <div class="wrap" style="padding-top:88px;padding-bottom:40px">
+    <div class="grid">
+      <div><p class="k">When</p><p>November 24, 2026</p></div>
+      <div><p class="k">Where</p><p>De La Salle University (DLSU)</p></div>
+      <div><p class="k">Take part</p><p>Sticky notes are given to every visitor to stick beside the artwork.</p></div>
+      <div><p class="k">Group 3</p><p>Sophia Carino · Marcus Leonardo · Alvaro Tirona · Louise Dela Cruz · Obed Alcantara · Caitlin Sage Lo · Michael Cunag</p></div>
+    </div>
+    <div style="margin-top:56px;border-top:1px solid rgba(255,244,240,.45);padding-top:28px">
+      <p class="k" style="margin:0 0 14px;font-size:12px;letter-spacing:.2em;text-transform:uppercase">Sources</p>
+      <ul>
+        <li><a href="https://ateneoartgallery.com/collections/kinupot">Ateneo Art Gallery: Kinupot</a></li>
+        <li><a href="https://ateneoartgallery.com/collections/krista-female-christ">Ateneo Art Gallery: Krista (Female Christ)</a></li>
+        <li><a href="https://ateneoartgallery.com/newsroom/art-for-rights">Ateneo Art Gallery: Art for rights</a></li>
+        <li><a href="https://verafiles.org/articles/ardor-undiminished-remembering-edgar-talusan-fernandez-1955-2024">VERA Files on Edgar Talusan Fernandez</a></li>
+        <li><a href="https://www.mplus.org.hk/en/magazine/kiri-dalena-erased-slogans/">M+ Magazine: Kiri Dalena, Erased Slogans</a></li>
+        <li><a href="https://collection.qagoma.qld.gov.au/node/34782">QAGOMA: Kiri Dalena</a></li>
+        <li><a href="https://learn.martiallawmuseum.ph/magturo/gr-11-understanding-society/">Martial Law Museum</a></li>
+        <li><a href="https://epa.culturalcenter.gov.ph/3/82/2125/">CCP Encyclopedia of Philippine Art: Altar</a></li>
+        <li><a href="https://artreview.com/neil-doloricon-whose-art-championed-the-underdog-in-filipino-society-1957-2021/">ArtReview on Neil Doloricon</a></li>
+        <li><a href="https://subtleandraw.wordpress.com/2016/07/13/chef-doeuvre/">Bondage by Papo de Asis</a></li>
+        <li><a href="https://archium.ateneo.edu/paha/vol7/iss1/23">Ateneo Archium: A Year to Remember</a></li>
+      </ul>
+    </div>
+    <p aria-hidden="true" class="serif" style="margin:64px 0 0;font-size:clamp(80px,17vw,240px);line-height:.8;color:var(--ink);letter-spacing:-.02em;white-space:nowrap;overflow:hidden">Martial Law</p>
+  </div>
+</footer>
+
+<div id="toast" role="status"></div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script>
+/* ============ PASTE YOUR FIREBASE CONFIG HERE ============ */
+const firebaseConfig = {
+  apiKey: "AIzaSyAy1QBWwxbPTZ694V8Vdg1ATHnkJd7ICqs",
+  authDomain: "mreow-c3898.firebaseapp.com",
+  databaseURL: "https://mreow-c3898-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "mreow-c3898",
+  storageBucket: "mreow-c3898.firebasestorage.app",
+  messagingSenderId: "10437498738",
+  appId: "1:10437498738:web:39a8ce58411d831ebbafeb",
+  measurementId: "G-W34DGQSL2B"
+};
+/* ========================================================== */
+
+const works = [
+  {id:'kinupot',n:'01',title:'Kinupot',artist:'Edgar Talusan Fernandez',date:'1977',medium:'Molded canvas over a wood armature',where:'Ateneo Art Gallery, Ateneo de Manila University, Quezon City',short:'Molded canvas over a wood armature, 1977',description:'A tall, hooded figure of white canvas stretched over a wooden frame. The fabric is pulled tight and creased, with no face or features, and the figure stands on a black base. The title joins kinuha (taken) and sinupot (bagged).',connection:'Power that hides its victims. The work refers to the desaparecidos, the missing persons, and to the restraint felt during a period of media censorship. The blank, shrouded figure makes visible what the regime erased.',src:'kinupot.jpg',ratio:'3 / 4'},
+  {id:'krista',n:'02',title:'Krista (Female Christ)',artist:'Pablo Baens Santos',date:'1984',medium:'Oil on canvas',where:'Ateneo Art Gallery Collection, Ateneo de Manila University, Quezon City',short:'Oil on canvas, 1984',description:'The Philippine motherland, with barbed wire around her mouth like a gag. Her fists are clenched, the colors of the flag fill the background, and outraged figures crowd the scene.',connection:'The gag is censorship made visible. Placing a woman in the place of Christ, with barbed wire in place of thorns, is our reading of the title: the nation as a silenced woman who still resists, a suffering figure and not only a victim.',src:'krista.jpg',ratio:'851 / 1080'},
+  {id:'erased',n:'03',title:'Erased Slogans',artist:'Kiri Dalena',date:'2016',medium:'Laser print',where:'M+ Museum, Hong Kong',short:'Laser print, 2016',description:'Edited archival images of protests in Manila, from the 1970s leading up to and during martial law. The slogans have been digitally wiped from the placards, leaving them blank: forgotten voices, beliefs and messages that were silenced or overlooked.',connection:'It can be read two ways: as forgetting that the period ever happened, or as an impulse to remember. The empty spaces stand for the silenced voices of that time and the historical amnesia that has marked Philippine politics since.',src:'erased.jpg',ratio:'696 / 440'},
+  {id:'altar',n:'04',title:'Altar',artist:'Ofelia Gelvezon-Tequi',date:'1982',medium:'Viscosity print',where:'Private collection',short:'Viscosity print, 1982',description:'A religious retablo, or altarpiece. In the central niche is the Lamb of the Book of Revelation, carrying the Philippine flag. The two side niches hold the silhouettes of soldiers with long arms, while angels sound the trumpets of war below.',connection:'The imagery signifies the enthronement of military power in the Philippines, and alludes to the armed struggles and conflicting interests of the Marcos period.',src:'altar.jpg',ratio:'337 / 450'},
+  {id:'welga',n:'05',title:'Welga',artist:'Neil Doloricon',date:'1981',medium:'Acrylic on collage newspaper and canvas',where:'Ateneo Art Gallery',short:'Acrylic on collage newspaper and canvas, 1981',description:'A social realist work showing six jeepney drivers in protest during the Marcos dictatorship. Acrylic and newspaper collage together portray the resistance and collective struggle of Filipino workers against oppression.',connection:'It highlights the importance of collective action and standing up against an oppressive government, and reminds us that everyone, especially working class citizens, played a part in resisting authoritarian rule.',src:'welga.jpg',ratio:'446 / 448'},
+  {id:'bondage',n:'06',title:'Bondage',artist:'Papo de Asis',date:'1993',medium:'Oil on canvas',where:'National Museum of Fine Arts',short:'Oil on canvas, 1993',description:'An oil painting of a man trapped inside a massive concrete structure, with a large eagle on top of it. A skull, scattered bones, a Grim Reaper on a horse and a woman walking a desolate shoreline complete the scene.',connection:'The painting reflects on the experiences of Filipinos living under oppressive systems of power and control. The trapped man stands for people deprived of their freedom, and the imagery conveys the fear, helplessness and suffering of life under oppression.',src:'bondage.jpg',ratio:'3 / 4'},
+  {id:'year',n:'07',title:'A Year to Remember',artist:'Edgar Talusan Fernandez',date:'1983',medium:'Acrylic painting',where:'Ateneo Art Gallery',short:'Acrylic painting, 1983',description:'An acrylic painting on a black background with contrasting red and yellow elements. Strips of red and yellow cloth are strung along the top of the frame, a large yellow cloth in the middle seems to drip blood, and a pool of blood red lies at the bottom.',connection:'The work represents the violence and suffering caused by the Marcos regime. Its dark colors and blood-red imagery recall the horror, fear, loss and hardship of that time.',src:'year.jpg',ratio:'694 / 498'},
+  {id:'desaparecidos',n:'08',title:'Desaparecidos',artist:'Toym Imao',date:'2015',medium:'Metal installation',where:'Location unknown',short:'Metal installation, 2015',description:'An installation of life-sized figures on white pedestals, each holding an empty frame draped with a black sash. The title is Spanish for the disappeared, referring to those forcibly taken during the Martial Law era.',connection:'A tribute to the victims of enforced disappearance during Martial Law. The figures stand for their absence and the loss felt by their families, a reminder of the people who were never forgotten.',src:'desaparecidos.jpg',ratio:'984 / 655'},
+  {id:'malumbay',n:'09',title:'Malumbay Si Ina',artist:'Pablo Baens Santos',date:'1983',medium:'Oil on canvas',where:'Erehwon Center for the Arts',short:'Oil on canvas, 1983',description:'A large face in profile, eyes closed, rests above a dense crowd of dark, tangled figures.',connection:'[Connection to the theme: to be added]',src:'malumbay.jpg',ratio:'939 / 762'}
+];
+const COLORS=['#F6E27F','#F4A9A8','#BFE3C8','#BCD7F0'];
+const $=(s)=>document.querySelector(s);
+const esc=(t)=>String(t).replace(/[&<>"']/g,(c)=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function toast(m){const t=$('#toast');t.textContent=m;t.style.display='block';clearTimeout(toast.h);toast.h=setTimeout(()=>t.style.display='none',3500)}
+
+/* loader */
+(function(){
+  let r='';
+  for(let i=0;i<8;i++){r+='<g transform="rotate('+i*45+' 60 60)"><line x1="60" y1="34" x2="60" y2="5"/><line x1="60" y1="34" x2="60" y2="14" transform="rotate(-11 60 60)"/><line x1="60" y1="34" x2="60" y2="14" transform="rotate(11 60 60)"/></g>'}
+  $('#rays').innerHTML=r;
+  const reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  setTimeout(()=>$('#loader').classList.add('fade'),reduce?700:2200);
+  setTimeout(()=>$('#loader').remove(),reduce?1100:2850);
+})();
+
+/* collection cards */
+(function(){
+  let h='';
+  for(let rep=0;rep<2;rep++){
+    works.forEach((w)=>{
+      h+='<button type="button" class="mq-card" data-id="'+w.id+'" '+(rep?'tabindex="-1" aria-hidden="true"':'')+' aria-label="Read about '+esc(w.title)+' by '+esc(w.artist)+'"><img src="'+w.src+'" alt="" loading="lazy"><span class="n">Work '+w.n+'</span><span class="t">'+esc(w.title)+'</span><span class="a">'+esc(w.artist)+'</span><span class="s">'+esc(w.short)+'</span></button>';
+    });
+  }
+  $('#track').innerHTML=h;
+  $('#track').addEventListener('click',(e)=>{const b=e.target.closest('.mq-card');if(b)openModal(b.dataset.id)});
+})();
+function openModal(id){
+  const w=works.find((x)=>x.id===id);if(!w)return;
+  $('#m-img').src=w.src;$('#m-img').alt=w.title;$('#m-img').style.aspectRatio=w.ratio;$('#m-img').style.objectFit='cover';
+  $('#m-n').textContent='Work '+w.n+' of 09';$('#m-title').textContent=w.title;
+  $('#m-by').textContent=w.artist+' · '+w.date;$('#m-med').textContent=w.medium+' · '+w.where;
+  $('#m-desc').textContent=w.description;$('#m-con').textContent=w.connection;
+  $('#modal').classList.add('open');$('#modal').setAttribute('aria-hidden','false');document.body.style.overflow='hidden';
+}
+function closeModal(){$('#modal').classList.remove('open');$('#modal').setAttribute('aria-hidden','true');document.body.style.overflow=''}
+$('#mclose').onclick=closeModal;$('#mclose-bg').onclick=closeModal;$('#m-note').onclick=closeModal;
+document.addEventListener('keydown',(e)=>{if(e.key==='Escape')closeModal()});
+
+/* marquee: auto-drift, touch/mouse drag, looping */
+(function(){
+  const wrap=$('.mq-wrap'),track=$('.mq-track');
+  const reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let paused=false,timer=null;
+  const hold=()=>{paused=true;if(timer){clearTimeout(timer);timer=null}};
+  const release=(ms)=>{if(timer)clearTimeout(timer);timer=setTimeout(()=>{paused=false},ms||0)};
+  wrap.addEventListener('mouseenter',hold);wrap.addEventListener('mouseleave',()=>release(0));
+  wrap.addEventListener('focusin',hold);wrap.addEventListener('focusout',()=>release(0));
+  wrap.addEventListener('touchstart',hold,{passive:true});wrap.addEventListener('touchend',()=>release(2500),{passive:true});
+  wrap.addEventListener('wheel',()=>{hold();release(2000)},{passive:true});
+  const half=()=>track.scrollWidth/2;
+  let down=false,moved=false,startX=0,startLeft=0;
+  wrap.addEventListener('scroll',()=>{const h=half();if(h<=0)return;
+    if(wrap.scrollLeft<=0){wrap.scrollLeft=h;startLeft+=h}
+    else if(wrap.scrollLeft>=h*2-wrap.clientWidth){wrap.scrollLeft-=h;startLeft-=h}});
+  wrap.addEventListener('pointerdown',(e)=>{if(e.pointerType!=='mouse'||e.button!==0)return;down=true;moved=false;startX=e.clientX;startLeft=wrap.scrollLeft;hold()});
+  window.addEventListener('pointermove',(e)=>{if(!down)return;const dx=e.clientX-startX;if(Math.abs(dx)>5){moved=true;wrap.classList.add('dragging')}if(moved)wrap.scrollLeft=startLeft-dx});
+  const end=()=>{if(!down)return;down=false;wrap.classList.remove('dragging');release(moved?1500:0)};
+  window.addEventListener('pointerup',end);window.addEventListener('pointercancel',end);
+  wrap.addEventListener('click',(e)=>{if(moved){e.stopPropagation();e.preventDefault();moved=false}},true);
+  let pos=wrap.scrollLeft;
+  (function tick(){const h=half();
+    if(h>0){if(paused||reduce){pos=wrap.scrollLeft}else{pos+=0.5;if(pos>=h)pos-=h;if(pos<2)pos=2;wrap.scrollLeft=pos}}
+    requestAnimationFrame(tick)})();
+})();
+
+/* hallway */
+const draft={work:null,x:0,y:0};
+const notes={}; // workId -> {noteId: note}
+let db=null;
+try{
+  if(!firebaseConfig.apiKey||firebaseConfig.apiKey==='PASTE')throw new Error('no config');
+  firebase.initializeApp(firebaseConfig);db=firebase.database();
+}catch(e){console.warn('Firebase not configured',e)}
+
+function buildHall(){
+  $('#gal').innerHTML=works.map((w)=>(
+    '<figure data-w="'+w.id+'"><div class="frame" style="aspect-ratio:'+w.ratio+'"><img src="'+w.src+'" alt="'+esc(w.title)+'" loading="lazy"><button type="button" class="hit" aria-label="Click to stick a note on '+esc(w.title)+'"></button><div class="layer"></div></div>'+
+    '<figcaption><span class="t">'+esc(w.title)+'</span><span class="c">0 notes</span></figcaption><div class="slot"></div></figure>'
+  )).join('');
+  document.querySelectorAll('#gal figure').forEach((fig)=>{
+    const id=fig.dataset.w;
+    fig.querySelector('.hit').addEventListener('click',(e)=>{
+      const r=e.currentTarget.getBoundingClientRect();
+      let x=50,y=50;if(e.clientX||e.clientY){x=(e.clientX-r.left)/r.width*100;y=(e.clientY-r.top)/r.height*100}
+      draft.work=id;draft.x=Math.min(80,Math.max(20,Math.round(x)));draft.y=Math.min(86,Math.max(14,Math.round(y)));
+      renderDraft();
+    });
+  });
+}
+function renderNotes(id){
+  const fig=document.querySelector('#gal figure[data-w="'+id+'"]');if(!fig)return;
+  const list=Object.values(notes[id]||{}).sort((a,b)=>(a.t||0)-(b.t||0));
+  fig.querySelector('.layer').innerHTML=list.map((n)=>'<div class="note" style="left:'+n.x+'%;top:'+n.y+'%;background:'+COLORS[n.c%COLORS.length]+';transform:translate(-50%,-50%) rotate('+n.r+'deg)">'+esc(n.text)+'</div>').join('')+
+    (draft.work===id?'<div class="pin" style="left:'+draft.x+'%;top:'+draft.y+'%"></div>':'');
+  fig.querySelector('.c').textContent=list.length===1?'1 note':list.length+' notes';
+}
+function renderDraft(){
+  works.forEach((w)=>{
+    const fig=document.querySelector('#gal figure[data-w="'+w.id+'"]');const slot=fig.querySelector('.slot');
+    if(draft.work===w.id){
+      if(!slot.firstChild){
+        slot.innerHTML='<div class="composer"><label for="nt-'+w.id+'">Your note on '+esc(w.title)+'</label><textarea id="nt-'+w.id+'" rows="3" maxlength="90" placeholder="What do you see, feel or want to ask?"></textarea><div style="display:flex;flex-wrap:wrap;gap:12px"><button type="button" class="go">Stick it on</button><button type="button" class="no">Cancel</button></div></div>';
+        slot.querySelector('.go').onclick=()=>stick(w.id,slot.querySelector('textarea'));
+        slot.querySelector('.no').onclick=()=>{draft.work=null;renderDraft()};
+      }
+      slot.querySelector('textarea').focus({preventScroll:true});
+    }else slot.innerHTML='';
+    renderNotes(w.id);
+  });
+}
+function stick(id,ta){
+  const text=ta.value.trim().slice(0,90);if(!text)return;
+  if(!db){toast('Notes are not connected yet. Add the Firebase config.');return}
+  const note={text,x:draft.x,y:draft.y,c:Math.floor(Math.random()*COLORS.length),r:Math.round(Math.random()*8-4),t:firebase.database.ServerValue.TIMESTAMP};
+  const last=+localStorage.getItem('ml-last')||0;
+  if(Date.now()-last<8000){toast('Please wait a few seconds before the next note.');return}
+  db.ref('notes/'+id).push(note).then(()=>{try{localStorage.setItem('ml-last',Date.now())}catch(e){}draft.work=null;renderDraft()}).catch(()=>toast('Could not save the note. Please try again.'));
+}
+buildHall();
+if(db){
+  works.forEach((w)=>{
+    db.ref('notes/'+w.id).on('value',(s)=>{notes[w.id]=s.val()||{};renderNotes(w.id)},()=>toast('Could not load shared notes.'));
+  });
+}
+</script>
+</body>
+</html>
